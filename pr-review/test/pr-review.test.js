@@ -1,15 +1,20 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "bun:test";
+import * as pluginModule from "../../.opencode/plugins/pr-review.js";
 import {
-  PRReviewPlugin,
   parseMarkdownDefinition,
   loadBundledDefinitions,
   applyDefinitionsToConfig,
-} from "../../.opencode/plugins/pr-review.js";
+} from "../lib/definitions.js";
+import { PRReviewPlugin } from "../../.opencode/plugins/pr-review.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "../..");
+
+test("plugin module only exports OpenCode plugin entrypoints", () => {
+  expect(Object.keys(pluginModule).sort()).toEqual(["PRReviewPlugin", "default"]);
+});
 
 test("parseMarkdownDefinition reads simple YAML frontmatter and body", () => {
   const definition = parseMarkdownDefinition(`---
