@@ -1,0 +1,11 @@
+{
+  "name": "pr-review",
+  "version": "1.0.0",
+  "description": "OpenCode PR review agents and command",
+  "type": "module",
+  "main": ".opencode/plugins/pr-review.js",
+  "scripts": {
+    "test": "bun test"
+  },
+  "license": "MIT"
+}
