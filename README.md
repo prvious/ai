@@ -1,63 +1,11 @@
-# PR Review for OpenCode
+# AI Tooling
 
-`pr-review` bundles six specialized PR review subagents and one `/pr-review` command for OpenCode.
+This repo collects OpenCode plugins, skills, and other AI workflow helpers.
 
-## Install
+## Contents
 
-Add the plugin to your global or project `opencode.json`:
+- [`pr-review`](./pr-review/README.md): OpenCode plugin with bundled PR review agents and a `/pr-review` command.
+- [`go-simplifier`](./go-simplifier/README.md): OpenCode skill bundle and plugin helper for simplifying recently modified Go code.
+- [`skills/go-simplifier`](./skills/go-simplifier/SKILL.md): Canonical `go-simplifier` skill source.
 
-```json
-{
-  "plugin": ["pr-review@git+https://github.com/prvious/ai.git"]
-}
-```
-
-Restart OpenCode after editing config.
-
-To pin a tag:
-
-```json
-{
-  "plugin": ["pr-review@git+https://github.com/prvious/ai.git#v1.0.0"]
-}
-```
-
-## Usage
-
-Run a full review:
-
-```txt
-/pr-review
-```
-
-Run focused reviews:
-
-```txt
-/pr-review tests errors
-/pr-review comments
-/pr-review simplify
-/pr-review all parallel
-```
-
-The package registers these subagents:
-
-- `code-reviewer`
-- `code-simplifier`
-- `comment-analyzer`
-- `pr-test-analyzer`
-- `silent-failure-hunter`
-- `type-design-analyzer`
-
-## Troubleshooting
-
-If the command or agents do not appear, restart OpenCode and check plugin logs:
-
-```bash
-opencode run --print-logs "hello" 2>&1 | grep -i pr-review
-```
-
-If OpenCode caches an older Git version, clear OpenCode's package cache or pin a newer tag in `opencode.json`.
-
-## Attribution
-
-Built by Prvious.
+Restart OpenCode after adding or changing plugins, skills, agents, commands, or config-time files.

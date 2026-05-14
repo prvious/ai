@@ -1,9 +1,9 @@
 {
   "name": "pr-review",
   "version": "1.0.0",
-  "description": "OpenCode PR review agents and command",
+  "description": "OpenCode plugins, skills, and AI workflow helpers",
   "type": "module",
-  "main": ".opencode/plugins/pr-review.js",
+  "main": ".opencode/plugins/index.js",
   "scripts": {
     "test": "bun test"
   },
