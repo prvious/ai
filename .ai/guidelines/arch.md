@@ -19,3 +19,21 @@
 - After completing each coherent code change, activate the `laravel-simplifier` skill before final formatting, verification, and committing.
 - Limit simplification to code modified by the current change and preserve its existing behavior.
 - If simplification changes the code, run the formatter and affected tests against the final simplified version.
+
+## Testing
+
+- Prefer Browser tests over Integration tests.
+- Prefer focused tests for Action classes
+- do NOT write tests for the sake of coverage. write meaningful tests that do not attempt to test the framework features
+
+## Commits
+
+- Split big features and code changes into multiple smaller reviewable commits
+- prefer conventional Commit messages with the following structure:
+    ```markdown
+        <type>[optional scope]: <description>
+
+        [optional body]
+
+        [optional footer(s)]
+    ```

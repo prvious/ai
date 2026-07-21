@@ -14,8 +14,7 @@ The product should feel like a deliberately smaller Open WebUI or LibreChat: fas
 V0 is a Laravel 13 modular monolith using:
 
 - PHP 8.4, required by the selected Parsel integration
-- Laravel AI SDK against a private OpenAI-compatible vLLM endpoint
-- `Qwen/Qwen3-Coder-Next-FP8`
+- Laravel AI SDK against a private OpenAI-compatible vLLM endpoint running `Qwen/Qwen3-Coder-Next-FP8`. This will be faked ofcourse during tests using laravel ai sdk (We currently don't have this setup so don't waste time trying to figure out where it's setup)
 - Laravel queues and Horizon for durable agent execution
 - Laravel Reverb and Echo for live progress and response streaming
 - Laravel MCP for direct consumption of a fixed SearXNG MCP server
@@ -201,7 +200,7 @@ The application image targets PHP 8.4 because that is required by the selected P
 
 Laravel Boost is a development dependency. It helps agents and developers understand and work on the Laravel application, but it is not part of the production request path and is not the runtime gateway driver.
 
-## 7. Docker Swarm deployment
+## 7. Docker Swarm deployment (DO NOT WORK ON THIS YET. REQUIRES HUMAN ATTENTION)
 
 ### 7.1 Required topology
 
