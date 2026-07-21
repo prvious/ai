@@ -1,4 +1,149 @@
 <laravel-boost-guidelines>
+=== .ai/actions rules ===
+
+# App/Actions guidelines
+
+- This application uses the Action pattern and prefers for much logic to live in reusable and composable Action classes.
+- Actions live in `app/Actions`, they are named based on what they do, with no suffix.
+- Actions are used for code that mutates our own database - creating, updating, or deleting records in the application's database.
+- Actions will be called from many different places: jobs, commands, HTTP requests, API requests, MCP requests, and more.
+- Create dedicated Action classes for business logic with a single entry-point method named `handle()`.
+- Keep the Action's main workflow visible in `handle()` so it can usually be understood without jumping between methods.
+- Do not extract private helper methods merely to shorten `handle()` or because the code can be extracted.
+- A private helper method is acceptable only when it encapsulates a cohesive, genuinely complex operation, materially improves the readability of `handle()`, and does not justify a standalone Action.
+- If the operation represents a meaningful or reusable business operation, create a separate Action instead of a private helper method.
+- Create new actions with `php artisan make:action "{name}" --no-interaction`
+- Wrap complex operations in `DB::transaction()` within actions when multiple models are involved.
+- For interacting with external services and APIs, use Service classes instead (see services.md).
+
+## Namespace Organization
+
+- Actions should be organized in appropriate namespaces based on their domain or context.
+- Use meaningful namespace segments that reflect the business domain or integration type.
+- Examples:
+    - Stripe integration actions: `App\Actions\Stripe`
+    - Invoice-related actions: `App\Actions\Invoice`
+    - Payment plan actions: `App\Actions\PaymentPlan`
+    - Receipt processing actions: `App\Actions\Receipt`
+    - User management actions: `App\Actions\User`
+- When creating actions, consider grouping related functionality together in the same namespace.
+
+<?php
+
+declare(strict_types=1);
+
+namespace App\Actions\Invoice;
+
+final readonly class CreateInvoice
+{
+    public function handle(User $user, string $favorite): bool
+    {
+        DB::transaction(function () {
+            //
+        });
+    }
+}
+
+=== .ai/arch rules ===
+
+# Architecture Guidelines
+
+## Simplicity and Readability
+
+- Write code so its main execution flow can be understood from top to bottom without unnecessary jumps between methods, classes, or files.
+- Prefer simple, explicit, and unsurprising code over clever, dense, or overly compact implementations.
+- Code should communicate intent, not demonstrate sophistication. Do not introduce patterns or abstractions merely to make code appear more advanced.
+- Keep straightforward operations inline when extracting them would only move the code elsewhere or give it a name without improving understanding.
+
+## Abstractions
+
+- Create an abstraction only when it groups a cohesive, genuinely complex operation into a useful and meaningful unit.
+- An abstraction should materially improve readability, reuse, testability, or isolation of change. The possibility of extraction alone is not a reason to extract.
+- Avoid speculative abstractions for possible future reuse. Introduce them when the current code provides a concrete reason.
+- Before extracting code, ask whether the caller becomes easier to understand without reading the extracted implementation. If not, keep the code inline.
+
+## Post-change Simplification
+
+- After completing each coherent code change, activate the `laravel-simplifier` skill before final formatting, verification, and committing.
+- Limit simplification to code modified by the current change and preserve its existing behavior.
+- If simplification changes the code, run the formatter and affected tests against the final simplified version.
+
+=== .ai/services rules ===
+
+# App/Services guidelines
+
+- This application uses Service classes for interacting with external services and third-party APIs.
+- Services live in `app/Services`, they are named based on the service they integrate with, typically with a `Service` suffix.
+- Use Service classes to encapsulate all interactions with external APIs like Stripe, payment gateways, external http apis, etc.
+- Service classes should handle API authentication, request formatting, response parsing, and error handling for external services.
+- Services will be called from Actions, jobs, commands, and controllers.
+
+## Examples
+
+- `App\Services\StripeService` - For interacting with the Stripe API
+- `App\Services\GithubService` - For github integrations
+- `App\Services\PaymentGatewayService` - For payment processing
+
+## Structure
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services;
+
+final readonly class StripeService
+{
+    public function __construct(
+        private \Stripe\StripeClient $stripe
+    ) {}
+
+    public function createCustomer(string $email, array $metadata = []): \Stripe\Customer
+    {
+        return $this->stripe->customers->create([
+            'email' => $email,
+            'metadata' => $metadata,
+        ]);
+    }
+}
+```
+
+=== .ai/ui rules ===
+
+# Shadcn UI Components
+
+This application uses Shadcn UI components for consistent, accessible, and customizable UI elements.
+
+## Component Usage
+
+**Always use Shadcn UI components when building UI features.**
+
+## Installation Workflow
+
+If a required Shadcn component is not yet installed in the project:
+
+1. Install the component using the Shadcn CLI
+2. Continue with the implementation work using the newly installed component
+
+## Examples
+
+### Installing Components
+
+- `pnpm dlx shadcn@latest add button`
+- `pnpm dlx shadcn@latest add card`
+- `pnpm dlx shadcn@latest add dialog`
+
+## Important Notes
+
+- Components are installed to the `resources/js/components/ui/` directory
+- Shadcn components are fully customizable and use Tailwind CSS
+- Always check if a component exists before installing to avoid duplicates
+- Components are designed to be accessible and follow best practices
+- You must NOT manually edit or create components in the `resources/js/components/ui/`
+- Never attempy to manually edit,extend, or fix anything in the `resources/js/components/ui/`. the directory contains components installed from shadcnui. this is a NO GO zone.
+- The components rely on base-ui implementation instead of radix-ui. so, prefer using `render={() => [element we want to render as the child]}` instead of using the `asChild` prop on the element you'd like to replace
+
 === foundation rules ===
 
 # Laravel Boost Guidelines
