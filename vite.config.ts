@@ -25,7 +25,7 @@ export default defineConfig({
         }),
         tailwindcss(),
         wayfinder({
-            formVariants: true,
+            command: 'php -d memory_limit=512M artisan wayfinder:generate',
         }),
     ],
 });
